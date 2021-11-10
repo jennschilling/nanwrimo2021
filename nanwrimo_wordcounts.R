@@ -70,7 +70,7 @@ theme_update(
   plot.title.position = "plot",
   plot.title = element_markdown(size = 20, color = fontcolor, family = titlefont),
   
-  plot.subtitle = element_markdown(size = 11, color = fontcolor, family = font, lineheight = 1.5),
+  plot.subtitle = element_markdown(size = 14, color = fontcolor, family = font, lineheight = 1.5),
   
   plot.caption.position = "plot",
   plot.caption = element_markdown(size = 8, color = fontcolor, hjust = 1.04),
@@ -98,8 +98,8 @@ cal <- ggplot(data = word_counts %>% filter(day <= 7),
   coord_cartesian(expand = FALSE,
                   clip = "off") +
   labs(x = "",
-       y = "",,
-       subtitle = "Number of words per day") +
+       y = "",
+       subtitle = "I wrote the most on Saturday Nov. 6 and the least on Wednesday Nov. 3.") +
   theme(axis.line = element_blank(),
         axis.ticks = element_blank(),
         axis.text.y = element_blank(),
@@ -121,16 +121,15 @@ line <- ggplot(data = word_counts %>% filter(day <= 7),
             # shape = "★"
             ) +
   geom_text(data = word_counts %>% filter(day == 7),
-            mapping = aes(label = paste(comma(total), "words", sep = "\n")),
+            mapping = aes(label = paste(comma(total), "total words written in Week 1.", sep = " ")),
             family = font,
-            color = nanowrimo_green,
+            color = fontcolor,
             size = 5,
-            vjust = -0.4,
-            nudge_x = 0) +
+            vjust = -1.5,
+            nudge_x = -1) +
   scale_x_continuous(limits = c(as_date("2021-11-01"), as_date("2021-11-07"))) +
   coord_cartesian(expand = TRUE,
                   clip = "off") +
-  labs(subtitle = "Total words over the first week") +
   theme(axis.line = element_blank(),
         axis.ticks = element_blank(),
         axis.text = element_blank(),
