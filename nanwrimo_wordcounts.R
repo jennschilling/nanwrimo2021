@@ -17,7 +17,7 @@ library(patchwork)
 
 #### Data ####
 
-word_counts <- read_csv("word_counts.csv") %>% clean_names()
+word_counts <- read_csv("word_counts.csv", lazy = FALSE) %>% clean_names()
 
 word_counts <- word_counts %>%
   mutate(date = mdy(date),
@@ -98,7 +98,8 @@ cal <- ggplot(data = word_counts %>% filter(day <= 7),
   coord_cartesian(expand = FALSE,
                   clip = "off") +
   labs(x = "",
-       y = "") +
+       y = "",,
+       subtitle = "Number of words per day") +
   theme(axis.line = element_blank(),
         axis.ticks = element_blank(),
         axis.text.y = element_blank(),
@@ -129,11 +130,12 @@ line <- ggplot(data = word_counts %>% filter(day <= 7),
   scale_x_continuous(limits = c(as_date("2021-11-01"), as_date("2021-11-07"))) +
   coord_cartesian(expand = TRUE,
                   clip = "off") +
+  labs(subtitle = "Total words over the first week") +
   theme(axis.line = element_blank(),
         axis.ticks = element_blank(),
         axis.text = element_blank(),
         axis.title = element_blank(),
-        plot.margin = margin(t = 40, r = 20, b = 20, l = 20))
+        plot.margin = margin(t = 20, r = 20, b = 20, l = 20))
 
 cal / line +
   inset_element(logo,
@@ -144,7 +146,7 @@ cal / line +
                 clip = FALSE,
                 on_top = TRUE,
                 align_to = "full") +
-  plot_annotation(title = "Week 1 of National Novel Writing Month",
+  plot_annotation(title = "Week 1 of National Novel Writing Month, November 2021",
                   caption = "<b>Logo:</b> Image courtesy of National Novel Writing Month | <b>Data & Design:</b> Jenn Schilling")
 
 
