@@ -79,7 +79,7 @@ theme_update(
 )
 
 
-#### Plot ####
+#### Week 1 Plot ####
 
 cal <- ggplot(data = word_counts %>% filter(day <= 7),
        mapping = aes(x = weekday,
@@ -151,6 +151,85 @@ cal / line +
 
 # Save
 ggsave("week_1.png",
+       plot = last_plot(),
+       device = "png",
+       width = 9,
+       height = 5,
+       type = "cairo")
+
+
+#### Week 2 Plot ####
+
+cal <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
+              mapping = aes(x = weekday,
+                            y = 44,
+                            fill = count,
+                            label = paste(comma(count), "words", sep = "\n"))) +
+  geom_tile(color = "#FFFFFF") +
+  geom_text(family = font,
+            color = "#FFFFFF",
+            size = 5) +
+  scale_y_reverse() +
+  scale_fill_gradient(low = nanowrimo_blue,
+                      high = fontcolor) +
+  scale_x_discrete(position = "top") +
+  guides(fill = "none") +
+  coord_cartesian(expand = FALSE,
+                  clip = "off") +
+  labs(x = "",
+       y = "",
+       subtitle = "I wrote the most on and the least on .") +
+  theme(axis.line = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text.y = element_blank(),
+        axis.text.x = element_text(size = 14, 
+                                   color = fontcolor,
+                                   family = font),
+        plot.title = element_markdown(size = 20, 
+                                      color = fontcolor, 
+                                      family = font))
+
+line <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
+               mapping = aes(x = date,
+                             y = total,
+                             group = 1)) +
+  geom_line(color = fontcolor,
+            size = 2) +
+  geom_point(data = word_counts %>% filter(day == 14),
+             size = 5,
+             # shape = "★"
+  ) +
+  geom_text(data = word_counts %>% filter(day == 14), # Need to update this to be day 14 total minus day 7 total
+            mapping = aes(label = paste(comma(total), "total words written in Week 2.", sep = " ")),
+            family = font,
+            color = fontcolor,
+            size = 5,
+            vjust = -1.5,
+            nudge_x = -1) +
+  scale_x_continuous(limits = c(as_date("2021-11-08"), as_date("2021-11-14"))) +
+  coord_cartesian(expand = TRUE,
+                  clip = "off") +
+  theme(axis.line = element_blank(),
+        axis.ticks = element_blank(),
+        axis.text = element_blank(),
+        axis.title = element_blank(),
+        plot.margin = margin(t = 20, r = 20, b = 20, l = 20))
+
+cal / line +
+  inset_element(logo,
+                left = 1,
+                bottom = 0.1,
+                right = 0.85,
+                top = 0.6,
+                clip = FALSE,
+                on_top = TRUE,
+                align_to = "full") +
+  plot_annotation(title = "Week 2 of National Novel Writing Month, November 2021",
+                  caption = "<b>Logo:</b> Image courtesy of National Novel Writing Month | <b>Data & Design:</b> Jenn Schilling")
+
+
+# Save
+ggsave("week_2.png",
        plot = last_plot(),
        device = "png",
        width = 9,
