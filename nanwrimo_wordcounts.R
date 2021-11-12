@@ -35,6 +35,12 @@ logo <- image_read("https://nanowrimo.org/images/logged-out/crest-a0660d7655ffe1
 
 logo <- rasterGrob(logo, interpolate = TRUE)
 
+# Goal
+goal <- tibble(
+  date = as_date("2021-11-30"),
+  total = 50000
+)
+
 #### Formatting ####
 
 font <- "Rockwell"
@@ -46,7 +52,6 @@ nanowrimo_blue <- "#93dee8"
 nanowrimo_brown <- "#5a2e14"
 nanowrimo_green <- "#73ab9b"
 
-
 theme_set(theme_minimal(base_size = 12, base_family = font))
 
 theme_update(
@@ -56,16 +61,14 @@ theme_update(
   panel.background = element_rect(fill = bcolor, color = NA),
   plot.background = element_rect(fill = bcolor, color = NA),
   
-  axis.title = element_text(size = 10, color = fontcolor),
-  axis.text = element_text(size = 10, color = fontcolor),
-  axis.ticks = element_line(color = fontcolor),
+  axis.line = element_blank(),
+  axis.ticks = element_blank(),
+  axis.text.y = element_blank(),
+  axis.title = element_blank(),
   
-  axis.line = element_line(color = fontcolor),
-  
-  strip.text = element_text(size = 10, color = fontcolor, hjust = 0),
-  
-  legend.text = element_text(size = 10, color = fontcolor),
-  legend.title = element_text(size = 12, color = fontcolor),
+  axis.text.x = element_text(size = 14, 
+                             color = fontcolor,
+                             family = font),
   
   plot.title.position = "plot",
   plot.title = element_markdown(size = 20, color = fontcolor, family = titlefont),
@@ -99,16 +102,7 @@ cal <- ggplot(data = word_counts %>% filter(day <= 7),
                   clip = "off") +
   labs(x = "",
        y = "",
-       subtitle = "I wrote the most on Saturday Nov. 6 and the least on Wednesday Nov. 3.") +
-  theme(axis.line = element_blank(),
-        axis.ticks = element_blank(),
-        axis.text.y = element_blank(),
-        axis.text.x = element_text(size = 14, 
-                                   color = fontcolor,
-                                   family = font),
-        plot.title = element_markdown(size = 20, 
-                                      color = fontcolor, 
-                                      family = font))
+       subtitle = "I wrote the most on Saturday Nov. 6 and the least on Wednesday Nov. 3.") 
 
 line <- ggplot(data = word_counts %>% filter(day <= 7),
        mapping = aes(x = date,
@@ -117,9 +111,7 @@ line <- ggplot(data = word_counts %>% filter(day <= 7),
   geom_line(color = fontcolor,
             size = 2) +
   geom_point(data = word_counts %>% filter(day == 7),
-             size = 5,
-            # shape = "★"
-            ) +
+             size = 5) +
   geom_text(data = word_counts %>% filter(day == 7),
             mapping = aes(label = paste(comma(total), "total words written in Week 1.", sep = " ")),
             family = font,
@@ -130,11 +122,7 @@ line <- ggplot(data = word_counts %>% filter(day <= 7),
   scale_x_continuous(limits = c(as_date("2021-11-01"), as_date("2021-11-07"))) +
   coord_cartesian(expand = TRUE,
                   clip = "off") +
-  theme(axis.line = element_blank(),
-        axis.ticks = element_blank(),
-        axis.text = element_blank(),
-        axis.title = element_blank(),
-        plot.margin = margin(t = 20, r = 20, b = 20, l = 20))
+  theme(axis.text.x = element_blank())
 
 cal / line +
   inset_element(logo,
@@ -160,7 +148,7 @@ ggsave("week_1.png",
 
 #### Week 2 Plot ####
 
-cal <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
+cal_1 <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
               mapping = aes(x = weekday,
                             y = 44,
                             fill = count,
@@ -178,60 +166,91 @@ cal <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
                   clip = "off") +
   labs(x = "",
        y = "",
-       subtitle = "I wrote the most on and the least on .") +
-  theme(axis.line = element_blank(),
-        axis.ticks = element_blank(),
-        axis.text.y = element_blank(),
-        axis.text.x = element_text(size = 14, 
-                                   color = fontcolor,
-                                   family = font),
-        plot.title = element_markdown(size = 20, 
-                                      color = fontcolor, 
-                                      family = font))
+       subtitle = "I wrote the most on and the least on .<br>") +
+  theme()
 
-line <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
+cal_2 <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
+                mapping = aes(x = weekday,
+                              y = 44,
+                              fill = time,
+                              label = paste(time, "minutes", sep = "\n"))) +
+  geom_tile(color = "#FFFFFF") +
+  geom_text(family = font,
+            color = "#FFFFFF",
+            size = 5) +
+  scale_y_reverse() +
+  scale_fill_gradient(low = nanowrimo_blue,
+                      high = fontcolor) +
+  scale_x_discrete(position = "top") +
+  guides(fill = "none") +
+  coord_cartesian(expand = FALSE,
+                  clip = "off") +
+  labs(x = "",
+       y = "",
+       subtitle = "I wrote spent the most time writing on  and the least on .<br>") +
+  theme()
+
+line <- ggplot(data = word_counts %>% filter(day <= 14),
                mapping = aes(x = date,
                              y = total,
                              group = 1)) +
   geom_line(color = fontcolor,
             size = 2) +
-  geom_point(data = word_counts %>% filter(day == 14),
-             size = 5,
-             # shape = "★"
-  ) +
-  geom_text(data = word_counts %>% filter(day == 14), # Need to update this to be day 14 total minus day 7 total
-            mapping = aes(label = paste(comma(total), "total words written in Week 2.", sep = " ")),
+  geom_point(data = word_counts %>% filter(day == 14 | day == 7),
+             # shape = "★",
+             size = 5) +
+  geom_text(data = word_counts %>% filter(day == 7), 
+            mapping = aes(label = paste("Week 1:\n", comma(total), 
+                                        "words", sep = " ")),
             family = font,
             color = fontcolor,
-            size = 5,
-            vjust = -1.5,
+            size = 4.5,
+            vjust = -1,
+            nudge_x = -1.5) +
+  annotate("curve",
+           x = as_date("2021-11-06"), xend = as_date("2021-11-07"),
+           y = 18000, yend = 14500,
+           curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
+           color = fontcolor, size = 1) + 
+  geom_text(data = word_counts %>% filter(day == 14), 
+            mapping = aes(label = paste("Week 2:\n", 
+                                        comma(total - word_counts[7,]$total), 
+                                        "words.", sep = " ")),
+            family = font,
+            color = fontcolor,
+            size = 4.5,
+            vjust = -0.8,
             nudge_x = -1) +
-  scale_x_continuous(limits = c(as_date("2021-11-08"), as_date("2021-11-14"))) +
+  geom_segment(data = goal,
+               mapping = aes(x = date, xend = date,
+                             y = 0, yend = 49500),
+               size = 2,
+               color = nanowrimo_green) +
+  geom_text(data= goal,
+            mapping = aes(label = paste("Goal:", comma(total), sep = " ")),
+            family = font,
+            color = nanowrimo_green,
+            size = 5,
+            vjust = -0.5) +
+  scale_x_continuous(limits = c(as_date("2021-11-01"), as_date("2021-11-30"))) +
+  scale_y_continuous(limits = c(0, 50000)) +
   coord_cartesian(expand = TRUE,
                   clip = "off") +
-  theme(axis.line = element_blank(),
-        axis.ticks = element_blank(),
-        axis.text = element_blank(),
-        axis.title = element_blank(),
-        plot.margin = margin(t = 20, r = 20, b = 20, l = 20))
+  labs(subtitle = paste("Total Number of Words So Far: ", word_counts[14,]$total)) +
+  theme(axis.text.x = element_blank())
 
-cal / line +
-  inset_element(logo,
-                left = 1,
-                bottom = 0.1,
-                right = 0.85,
-                top = 0.6,
-                clip = FALSE,
-                on_top = TRUE,
-                align_to = "full") +
+line / cal_1 / cal_2 +
   plot_annotation(title = "Week 2 of National Novel Writing Month, November 2021",
-                  caption = "<b>Logo:</b> Image courtesy of National Novel Writing Month | <b>Data & Design:</b> Jenn Schilling")
+                  caption = "<b>Logo:</b> Image courtesy of National Novel Writing Month 
+                  | <b>Data & Design:</b> Jenn Schilling") +
+  plot_layout(heights = c(2, 1, 1))
+  
 
 
 # Save
 ggsave("week_2.png",
        plot = last_plot(),
        device = "png",
-       width = 9,
-       height = 5,
+       width = 10,
+       height = 10,
        type = "cairo")
