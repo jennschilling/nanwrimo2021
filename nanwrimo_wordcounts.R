@@ -111,7 +111,8 @@ line <- ggplot(data = word_counts %>% filter(day <= 7),
   geom_line(color = fontcolor,
             size = 2) +
   geom_point(data = word_counts %>% filter(day == 7),
-             size = 5) +
+             size = 5,
+             color = fontcolor) +
   geom_text(data = word_counts %>% filter(day == 7),
             mapping = aes(label = paste(comma(total), "total words written in Week 1.", sep = " ")),
             family = font,
@@ -198,7 +199,8 @@ line <- ggplot(data = word_counts %>% filter(day <= 14),
             size = 2) +
   geom_point(data = word_counts %>% filter(day == 14 | day == 7),
              # shape = "★",
-             size = 5) +
+             size = 5,
+             color = fontcolor) +
   geom_text(data = word_counts %>% filter(day == 7), 
             mapping = aes(label = paste("Week 1:\n", comma(total), 
                                         "words", sep = " ")),
@@ -239,11 +241,30 @@ line <- ggplot(data = word_counts %>% filter(day <= 14),
   labs(subtitle = paste("Total Number of Words So Far: ", word_counts[14,]$total)) +
   theme(axis.text.x = element_blank())
 
-line / cal_1 / cal_2 +
-  plot_annotation(title = "Week 2 of National Novel Writing Month, November 2021",
-                  caption = "<b>Logo:</b> Image courtesy of National Novel Writing Month 
+title <- ggplot() +
+  annotate("text",
+           x = 11.4,
+           y = 0,
+           label = "Week 2 of National Novel Writing Month, November 2021",
+           family = font,
+           color = fontcolor,
+           size = 8,
+           hjust = 1) +
+  annotation_custom(logo,
+                    xmin = 8,
+                    xmax = 18,
+                    ymin = -Inf,
+                    ymax = Inf) +
+  scale_x_continuous(limits = c(-10, 12)) +
+  coord_cartesian(clip = "off") +
+  theme(axis.text.x = element_blank(),
+        plot.margin = margin(0, 0, 0, 0))
+
+
+title / line / cal_1 / cal_2  +
+  plot_annotation(caption = "<b>Logo:</b> Image courtesy of National Novel Writing Month 
                   | <b>Data & Design:</b> Jenn Schilling") +
-  plot_layout(heights = c(2, 1, 1))
+  plot_layout(heights = c(1, 2, 1, 1))
   
 
 
