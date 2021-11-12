@@ -1,3 +1,5 @@
 # National Novel Writing Month 2021
 
 Repository for my data tracking of my word counts, time spent writing, and other metrics for NaNoWriMo 2021.
+
+![](https://github.com/jennschilling/nanwrimo2021/blob/main/week_1.png)
