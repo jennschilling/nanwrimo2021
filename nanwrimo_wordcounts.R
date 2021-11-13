@@ -27,7 +27,11 @@ word_counts <- word_counts %>%
          weekday = weekdays(date),
          weekday = factor(weekday, c("Monday", "Tuesday",
                                      "Wednesday", "Thursday", "Friday",
-                                     "Saturday", "Sunday")))
+                                     "Saturday", "Sunday")),
+         time_label = case_when(
+           time >= 60 ~ paste("1 hour\n", time-60, " minutes", sep = ""),
+           TRUE ~ paste(time, "\nminutes", sep = "")
+         ))
 
 # NaNoWriMo Logo (https://nanowrimo.org/press#logos)
 logo <- image_read("https://nanowrimo.org/images/logged-out/crest-a0660d7655ffe1e6558965e5d95827da.png")
@@ -49,6 +53,7 @@ fontcolor <- "#2f3061" # from NaNoWriMo wesbite
 bcolor <- "#F2F8FA" # from NaNoWriMo website
 
 nanowrimo_blue <- "#93dee8"
+darker_blue <- "#32c0d3"
 nanowrimo_brown <- "#5a2e14"
 nanowrimo_green <- "#73ab9b"
 
@@ -159,7 +164,7 @@ cal_1 <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
             color = "#FFFFFF",
             size = 5) +
   scale_y_reverse() +
-  scale_fill_gradient(low = nanowrimo_blue,
+  scale_fill_gradient(low = darker_blue,
                       high = fontcolor) +
   scale_x_discrete(position = "top") +
   guides(fill = "none") +
@@ -174,13 +179,13 @@ cal_2 <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
                 mapping = aes(x = weekday,
                               y = 44,
                               fill = time,
-                              label = paste(time, "minutes", sep = "\n"))) +
+                              label = time_label)) +
   geom_tile(color = "#FFFFFF") +
   geom_text(family = font,
             color = "#FFFFFF",
             size = 5) +
   scale_y_reverse() +
-  scale_fill_gradient(low = nanowrimo_blue,
+  scale_fill_gradient(low = darker_blue,
                       high = fontcolor) +
   scale_x_discrete(position = "top") +
   guides(fill = "none") +
@@ -238,7 +243,7 @@ line <- ggplot(data = word_counts %>% filter(day <= 14),
   scale_y_continuous(limits = c(0, 50000)) +
   coord_cartesian(expand = TRUE,
                   clip = "off") +
-  labs(subtitle = paste("Total Number of Words So Far: ", word_counts[14,]$total)) +
+  labs(subtitle = paste("So far I have written ", word_counts[14,]$total, "words.")) +
   theme(axis.text.x = element_blank())
 
 title <- ggplot() +
