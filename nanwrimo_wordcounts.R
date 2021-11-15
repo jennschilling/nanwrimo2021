@@ -158,7 +158,8 @@ cal_1 <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
               mapping = aes(x = weekday,
                             y = 44,
                             fill = count,
-                            label = paste(comma(count), "words", sep = "\n"))) +
+                            label = paste(comma(count, accuracy = 1),
+                                          "words", sep = "\n"))) +
   geom_tile(color = "#FFFFFF") +
   geom_text(family = font,
             color = "#FFFFFF",
@@ -172,7 +173,7 @@ cal_1 <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
                   clip = "off") +
   labs(x = "",
        y = "",
-       subtitle = "I wrote the most on and the least on .<br>") +
+       subtitle = "I wrote the most on Sunday Nov 14 and the least on Wednesday Nov 10.<br>") +
   theme()
 
 cal_2 <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
@@ -193,7 +194,7 @@ cal_2 <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
                   clip = "off") +
   labs(x = "",
        y = "",
-       subtitle = "I wrote spent the most time writing on  and the least on .<br>") +
+       subtitle = "I spent the most time writing on Monday Nov 8 and the least time writing on Thursday Nov 11.<br>") +
   theme()
 
 line <- ggplot(data = word_counts %>% filter(day <= 14),
@@ -212,8 +213,8 @@ line <- ggplot(data = word_counts %>% filter(day <= 14),
             family = font,
             color = fontcolor,
             size = 4.5,
-            vjust = -1,
-            nudge_x = -1.5) +
+            vjust = -0.5,
+            nudge_x = -3.2) +
   annotate("curve",
            x = as_date("2021-11-06"), xend = as_date("2021-11-07"),
            y = 18000, yend = 14500,
@@ -222,12 +223,17 @@ line <- ggplot(data = word_counts %>% filter(day <= 14),
   geom_text(data = word_counts %>% filter(day == 14), 
             mapping = aes(label = paste("Week 2:\n", 
                                         comma(total - word_counts[7,]$total), 
-                                        "words.", sep = " ")),
+                                        "words", sep = " ")),
             family = font,
             color = fontcolor,
             size = 4.5,
-            vjust = -0.8,
-            nudge_x = -1) +
+            vjust = -0.5,
+            nudge_x = -3.2) +
+  annotate("curve",
+           x = as_date("2021-11-13"), xend = as_date("2021-11-14"),
+           y = 29500, yend = 26500,
+           curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
+           color = fontcolor, size = 1) + 
   geom_segment(data = goal,
                mapping = aes(x = date, xend = date,
                              y = 0, yend = 49500),
@@ -243,7 +249,8 @@ line <- ggplot(data = word_counts %>% filter(day <= 14),
   scale_y_continuous(limits = c(0, 50000)) +
   coord_cartesian(expand = TRUE,
                   clip = "off") +
-  labs(subtitle = paste("So far I have written ", word_counts[14,]$total, "words.")) +
+  labs(subtitle = paste("So far I have written", comma(word_counts[14,]$total), "words in 14 days.",
+                        sep = " ")) +
   theme(axis.text.x = element_blank())
 
 title <- ggplot() +
