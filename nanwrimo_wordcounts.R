@@ -173,7 +173,7 @@ cal_1 <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
                   clip = "off") +
   labs(x = "",
        y = "",
-       subtitle = "I wrote the most on Sunday Nov 14 and the least on Wednesday Nov 10.<br>") +
+       subtitle = "I wrote the most words on Sunday Nov 14 and the fewest words on Wednesday Nov 10.<br>") +
   theme()
 
 cal_2 <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
@@ -194,7 +194,7 @@ cal_2 <- ggplot(data = word_counts %>% filter(day <= 14 & day > 7),
                   clip = "off") +
   labs(x = "",
        y = "",
-       subtitle = "I spent the most time writing on Monday Nov 8 and the least time writing on Thursday Nov 11.<br>") +
+       subtitle = "I spent the longest time writing on Monday Nov 8 and the shortest time writing on Thursday Nov 11.<br>") +
   theme()
 
 line <- ggplot(data = word_counts %>% filter(day <= 14),
