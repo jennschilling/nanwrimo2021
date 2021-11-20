@@ -1,6 +1,9 @@
-# National Novel Writing Month Word Counts
+# National Novel Writing Month Weekly Word Counts
 # Author: Jenn Schilling
 # November 2021
+
+# Note: I should probably make a function to generate the weekly plot rather 
+# than copying the code each week. Something for next time.
 
 #### Libraries ####
 
@@ -76,12 +79,19 @@ theme_update(
                              family = font),
   
   plot.title.position = "plot",
-  plot.title = element_markdown(size = 20, color = fontcolor, family = titlefont),
+  plot.title = element_markdown(size = 20, 
+                                color = fontcolor,
+                                family = titlefont),
   
-  plot.subtitle = element_markdown(size = 14, color = fontcolor, family = font, lineheight = 1.5),
+  plot.subtitle = element_markdown(size = 14, 
+                                   color = fontcolor, 
+                                   family = font, 
+                                   lineheight = 1.5),
   
   plot.caption.position = "plot",
-  plot.caption = element_markdown(size = 8, color = fontcolor, hjust = 1.04),
+  plot.caption = element_markdown(size = 8, 
+                                  color = fontcolor, 
+                                  hjust = 1.04),
   
   plot.margin = margin(t = 20, r = 20, b = 20, l = 20)
 )
@@ -311,7 +321,7 @@ cal_1 <- ggplot(data = word_counts %>% filter(day <= 21 & day > 14),
                   clip = "off") +
   labs(x = "",
        y = "",
-       subtitle = "I wrote the most words on Sunday Nov 14 and the fewest words on Wednesday Nov 10.<br>") +
+       subtitle = "I wrote the most words on Sunday Nov 20 and the fewest words on Friday Nov 19.<br>") +
   theme()
 
 cal_2 <- ggplot(data = word_counts %>% filter(day <= 21 & day > 14),
@@ -332,7 +342,7 @@ cal_2 <- ggplot(data = word_counts %>% filter(day <= 21 & day > 14),
                   clip = "off") +
   labs(x = "",
        y = "",
-       subtitle = "I spent the longest time writing on Monday Nov 8 and the shortest time writing on Thursday Nov 11.<br>") +
+       subtitle = "I spent the longest time writing on Saturday Nov 20 and the shortest time writing on Tuesday Nov 16.<br>") +
   theme()
 
 line <- ggplot(data = word_counts %>% filter(day <= 21),
@@ -383,7 +393,7 @@ line <- ggplot(data = word_counts %>% filter(day <= 21),
             nudge_x = -3.2) +
   annotate("curve",
            x = as_date("2021-11-20"), xend = as_date("2021-11-21"),
-           y = 29500, yend = 26500,
+           y = 39500, yend = 36500,
            curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
            color = fontcolor, size = 1) + 
   geom_segment(data = goal,
@@ -401,7 +411,7 @@ line <- ggplot(data = word_counts %>% filter(day <= 21),
   scale_y_continuous(limits = c(0, 50000)) +
   coord_cartesian(expand = TRUE,
                   clip = "off") +
-  labs(subtitle = paste("So far I have written", comma(word_counts[14,]$total), "words in 14 days.",
+  labs(subtitle = paste("So far I have written", comma(word_counts[21,]$total), "words in 21 days.",
                         sep = " ")) +
   theme(axis.text.x = element_blank())
 
