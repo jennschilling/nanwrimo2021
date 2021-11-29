@@ -557,22 +557,22 @@ line <- ggplot(data = word_counts %>% filter(day <= 28),
             nudge_x = -3.2) +
   annotate("curve",
            x = as_date("2021-11-27"), xend = as_date("2021-11-28"),
-           y = 52500, yend = 49200,
+           y = 52500, yend = 49400,
            curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
            color = fontcolor, size = 1) + 
   geom_segment(data = goal,
                mapping = aes(x = date, xend = date,
-                             y = 0, yend = 55000),
+                             y = 0, yend = 50000),
                size = 2,
                color = nanowrimo_green) +
   geom_text(data = goal,
-            mapping = aes(label = paste("Goal:", comma(total), sep = " ")),
+            mapping = aes(label = paste("Goal:", comma(total), sep = "\n")),
             family = font,
             color = nanowrimo_green,
             size = 5,
-            vjust = -1.6) +
+            vjust = -0.25) +
   scale_x_continuous(limits = c(as_date("2021-11-01"), as_date("2021-11-30"))) +
-  scale_y_continuous(limits = c(0, 56000)) +
+  scale_y_continuous(limits = c(0, 53000)) +
   coord_cartesian(expand = TRUE,
                   clip = "off") +
   labs(subtitle = paste("So far I have written", comma(word_counts[28,]$total), "words in 28 days.",
@@ -613,4 +613,3 @@ ggsave("week_4.png",
        width = 10,
        height = 10,
        type = "cairo")
-s
