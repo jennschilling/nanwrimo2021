@@ -450,3 +450,167 @@ ggsave("week_3.png",
        height = 10,
        type = "cairo")
 
+#### Week 4 Plot ####
+
+cal_1 <- ggplot(data = word_counts %>% filter(day <= 28 & day > 21),
+                mapping = aes(x = weekday,
+                              y = 44,
+                              fill = count,
+                              label = paste(comma(count, accuracy = 1),
+                                            "words", sep = "\n"))) +
+  geom_tile(color = "#FFFFFF") +
+  geom_text(family = font,
+            color = "#FFFFFF",
+            size = 5) +
+  scale_y_reverse() +
+  scale_fill_gradient(low = darker_blue,
+                      high = fontcolor) +
+  scale_x_discrete(position = "top") +
+  guides(fill = "none") +
+  coord_cartesian(expand = FALSE,
+                  clip = "off") +
+  labs(x = "",
+       y = "",
+       subtitle = "I wrote the most words on Monday Nov 22 and the fewest words on Wednesay Nov 24.<br>") +
+  theme()
+
+cal_2 <- ggplot(data = word_counts %>% filter(day <= 28 & day > 21),
+                mapping = aes(x = weekday,
+                              y = 44,
+                              fill = time,
+                              label = time_label)) +
+  geom_tile(color = "#FFFFFF") +
+  geom_text(family = font,
+            color = "#FFFFFF",
+            size = 5) +
+  scale_y_reverse() +
+  scale_fill_gradient(low = darker_blue,
+                      high = fontcolor) +
+  scale_x_discrete(position = "top") +
+  guides(fill = "none") +
+  coord_cartesian(expand = FALSE,
+                  clip = "off") +
+  labs(x = "",
+       y = "",
+       subtitle = "I spent the longest time writing on Monday Nov 22 and the shortest time writing on Saturday Nov 27.<br>") +
+  theme()
+
+line <- ggplot(data = word_counts %>% filter(day <= 28),
+               mapping = aes(x = date,
+                             y = total,
+                             group = 1)) +
+  geom_line(color = fontcolor,
+            size = 2) +
+  geom_point(data = word_counts %>% filter(day == 14 | day == 7 | day == 21 | day == 28),
+             # shape = "★",
+             size = 5,
+             color = fontcolor) +
+  geom_text(data = word_counts %>% filter(day == 7), 
+            mapping = aes(label = paste("Week 1:\n", comma(total), 
+                                        "words", sep = " ")),
+            family = font,
+            color = fontcolor,
+            size = 4.5,
+            vjust = -0.5,
+            nudge_x = -3.2) +
+  annotate("curve",
+           x = as_date("2021-11-06"), xend = as_date("2021-11-07"),
+           y = 18000, yend = 14500,
+           curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
+           color = fontcolor, size = 1) + 
+  geom_text(data = word_counts %>% filter(day == 14), 
+            mapping = aes(label = paste("Week 2:\n", 
+                                        comma(total - word_counts[7,]$total), 
+                                        "words", sep = " ")),
+            family = font,
+            color = fontcolor,
+            size = 4.5,
+            vjust = -0.5,
+            nudge_x = -3.2) +
+  annotate("curve",
+           x = as_date("2021-11-13"), xend = as_date("2021-11-14"),
+           y = 29500, yend = 26500,
+           curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
+           color = fontcolor, size = 1) + 
+  geom_text(data = word_counts %>% filter(day == 21), 
+            mapping = aes(label = paste("Week 3:\n", 
+                                        comma(total - word_counts[14,]$total), 
+                                        "words", sep = " ")),
+            family = font,
+            color = fontcolor,
+            size = 4.5,
+            vjust = -0.5,
+            nudge_x = -3.2) +
+  annotate("curve",
+           x = as_date("2021-11-20"), xend = as_date("2021-11-21"),
+           y = 40500, yend = 37600,
+           curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
+           color = fontcolor, size = 1) + 
+  geom_text(data = word_counts %>% filter(day == 28), 
+            mapping = aes(label = paste("Week 4:\n", 
+                                        comma(total - word_counts[21,]$total), 
+                                        "words", sep = " ")),
+            family = font,
+            color = fontcolor,
+            size = 4.5,
+            vjust = -0.5,
+            nudge_x = -3.2) +
+  annotate("curve",
+           x = as_date("2021-11-27"), xend = as_date("2021-11-28"),
+           y = 52500, yend = 49200,
+           curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
+           color = fontcolor, size = 1) + 
+  geom_segment(data = goal,
+               mapping = aes(x = date, xend = date,
+                             y = 0, yend = 55000),
+               size = 2,
+               color = nanowrimo_green) +
+  geom_text(data = goal,
+            mapping = aes(label = paste("Goal:", comma(total), sep = " ")),
+            family = font,
+            color = nanowrimo_green,
+            size = 5,
+            vjust = -1.6) +
+  scale_x_continuous(limits = c(as_date("2021-11-01"), as_date("2021-11-30"))) +
+  scale_y_continuous(limits = c(0, 56000)) +
+  coord_cartesian(expand = TRUE,
+                  clip = "off") +
+  labs(subtitle = paste("So far I have written", comma(word_counts[28,]$total), "words in 28 days.",
+                        sep = " ")) +
+  theme(axis.text.x = element_blank())
+
+title <- ggplot() +
+  annotate("text",
+           x = 11.4,
+           y = 0,
+           label = "Week 4 of National Novel Writing Month, November 2021",
+           family = font,
+           color = fontcolor,
+           size = 8,
+           hjust = 1) +
+  annotation_custom(logo,
+                    xmin = 8,
+                    xmax = 18,
+                    ymin = -Inf,
+                    ymax = Inf) +
+  scale_x_continuous(limits = c(-10, 12)) +
+  coord_cartesian(clip = "off") +
+  theme(axis.text.x = element_blank(),
+        plot.margin = margin(0, 0, 0, 0))
+
+
+title / line / cal_1 / cal_2  +
+  plot_annotation(caption = "<b>Logo:</b> Image courtesy of National Novel Writing Month 
+                  | <b>Data & Design:</b> Jenn Schilling") +
+  plot_layout(heights = c(1, 2, 1, 1))
+
+
+
+# Save
+ggsave("week_4.png",
+       plot = last_plot(),
+       device = "png",
+       width = 10,
+       height = 10,
+       type = "cairo")
+s
