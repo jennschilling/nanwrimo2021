@@ -177,7 +177,7 @@ speed_cal <- ggplot(data = word_counts,
   labs(x = "",
        y = "",
        fill = "Daily Words Per Minute",
-       subtitle = " I wrote the fastest in the middle of the month and end of the month. Beginning the story and<br>
+       subtitle = "I wrote the fastest in the middle of the month and end of the month. Beginning the story and<br>
        leading up to the end were my slowest writing times.",
        title = "<b>26</b> average words per minute each day.") +
   theme(legend.position = c(0.85, 0.05))
@@ -198,7 +198,7 @@ times_bar <- ggplot(data = word_counts,
                   labels = c("1 Time", "2 Times")) +
   coord_cartesian(expand = FALSE,
                   clip = "off") +
-  labs(title = "I wrote mostly once per day.<br>") +
+  labs(title = "I mostly wrote once per day.<br>") +
   theme(axis.text.x = element_blank(),
         axis.text.y = element_text(size = 18,
                                    color = fontcolor))
@@ -218,7 +218,7 @@ time_day_bar <- ggplot(data = word_counts,
   scale_x_continuous(limits = c(0, 30)) +
   coord_cartesian(expand = FALSE,
                   clip = "off") +
-  labs(title = "I wrote mostly in the morning.<br>") +
+  labs(title = "I wrote in the morning most frequently.<br>") +
   theme(axis.text.x = element_blank(),
         axis.text.y = element_text(size = 18,
                                    color = fontcolor,
@@ -263,3 +263,6 @@ ggsave("nanowrimo.png",
        width = 26,
        height = 14,
        type = "cairo")
+
+
+# Make Instagram carousel version
