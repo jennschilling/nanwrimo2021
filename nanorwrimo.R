@@ -103,8 +103,12 @@ theme_update(
 words_cal <- ggplot(data = word_counts,
        mapping = aes(x = weekday,
                      y = week,
-                     fill = count)) +
+                     fill = count,
+                     label = day)) +
   geom_tile(color = "#FFFFFF") +
+  geom_text(family = font,
+            size = 8,
+            color = "#FFFFFF") +
   scale_y_reverse() +
   scale_fill_gradient(low = nanowrimo_blue,
                       high = fontcolor,
@@ -118,17 +122,21 @@ words_cal <- ggplot(data = word_counts,
   labs(x = "",
        y = "",
        fill = "Daily Word Count",
-       subtitle = "I wrote the fewest words on Nov. 3, 21, and 24 when I wrote about 1,200 words.<br>
-       I wrote the most words on Nov. 6 and 22 when I wrote over 2,000 words.<br>",
-       title = "<b>1,672</b> average words per day.<br>") +
+       subtitle = "On the two days I wrote the most words, I spent over 90 minutes writing. These days<br>
+       occurred on weeks that were less balanced; I wrote fewer words on some days and<br>more on others.",
+       title = "<b>1,672</b> average words per day.") +
   theme(legend.position = c(0.85, 0.05))
 
 # Calender of time per day
 time_cal <- ggplot(data = word_counts,
        mapping = aes(x = weekday,
                      y = week,
-                     fill = time)) +
+                     fill = time,
+                     label = day)) +
   geom_tile(color = "#FFFFFF") +
+  geom_text(family = font,
+            size = 8,
+            color = "#FFFFFF") +
   scale_y_reverse() +
   scale_fill_gradient(low = nanowrimo_blue,
                       high = fontcolor) +
@@ -141,17 +149,22 @@ time_cal <- ggplot(data = word_counts,
   labs(x = "",
        y = "",
        fill = "Daily Minutes Writing",
-       subtitle = "I spent the least time writing on Nov. 21, 27, and 30 when I wrote for about 45 minutes.<br>
-       I spent the most time writing on Nov. 4, 6, and 22 when I wrote for over 90 minutes.<br>",
-       title = "<b>67</b> average minutes writing per day.<br>") +
+       subtitle = "The words came more easily, and I spent less time writing during the third week and<br>
+       the last few days of the month. I struggled more at the start of the month and in the fourth<br>
+       week when it took me longer to meet my daily word count goal.",
+       title = "<b>67</b> average minutes writing per day.") +
   theme(legend.position = c(0.85, 0.05))
 
 # Calender of word counts per day
 speed_cal <- ggplot(data = word_counts,
        mapping = aes(x = weekday,
                      y = week,
-                     fill = words_per_minute)) +
+                     fill = words_per_minute,
+                     label = day)) +
   geom_tile(color = "#FFFFFF") +
+  geom_text(family = font,
+            size = 8,
+            color = "#FFFFFF") +
   scale_y_reverse() +
   scale_fill_gradient(low = nanowrimo_blue,
                       high = fontcolor) +
@@ -164,9 +177,9 @@ speed_cal <- ggplot(data = word_counts,
   labs(x = "",
        y = "",
        fill = "Daily Words Per Minute",
-       subtitle = " I wrote the slowest on Nov. 4 and 24 when I wrote less than 18 words per minute.<br>
-       I wrote the fastest on Nov. 27 and 30 when I wrote more than 35 words per minute.<br>",
-       title = "<b>26</b> average words per minute each day.<br>") +
+       subtitle = " I wrote the fastest in the middle of the month and end of the month. Beginning the story and<br>
+       leading up to the end were my slowest writing times.",
+       title = "<b>26</b> average words per minute each day.") +
   theme(legend.position = c(0.85, 0.05))
 
 
@@ -216,17 +229,18 @@ title <- ggplot() +
   annotate("text",
            x = -15,
            y = 0,
-           label = "November is National Novel Writing Month. In 2021, I participated for the second time.\n I wrote every day and wrote a total of 50,179 words. I spent 33 hours and 41 minutes writing.",
+           label = "November is National Novel Writing Month. Hundreds of thousands of people around the world participate.\nThe goal is to write 50,000 words during the month. In 2021, I participated for the second time. I wrote every\nday during November. I ended the month with a total of 50,179 words after 33 hours and 41 minutes of writing.",
            family = font,
            color = fontcolor,
            size = 10,
-           hjust = 0.07) +
+           hjust = 0) +
   annotation_custom(logo,
-                    xmin = 7,
-                    xmax = 17,
+                    xmin = 6,
+                    xmax = 16,
                     ymin = -Inf,
                     ymax = Inf) +
-  scale_x_continuous(limits = c(-15, 12)) +
+  scale_x_continuous(limits = c(-15, 12),
+                     expand = c(0, 0)) +
   coord_cartesian(clip = "off") +
   theme(axis.text.x = element_blank(),
         plot.margin = margin(0, 0, 0, 0))
@@ -239,7 +253,7 @@ bars <- plot_spacer() | times_bar | time_day_bar | plot_spacer()
 
 title / cal / bars +
   plot_annotation(caption = "<b>Logo:</b> Image courtesy of National Novel Writing Month 
-                  | <b>Data & Design:</b> Jenn Schilling") +
+                  | <b>Data & Design:</b> Jenn Schilling | Learn more at nanowrimo.org") +
   plot_layout(heights = c(1, 3, 1))
 
 # Save
