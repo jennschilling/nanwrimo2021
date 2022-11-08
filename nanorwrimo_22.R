@@ -1,6 +1,6 @@
 # National Novel Writing Month Data Viz
 # Author: Jenn Schilling
-# November 2021
+# November 2022
 
 #### Libraries ####
 
@@ -18,7 +18,7 @@ library(forcats)
 
 #### Data ####
 
-word_counts <- read_csv("word_counts.csv", lazy = FALSE) %>% clean_names()
+word_counts <- read_csv("word_counts_22.csv", lazy = FALSE) %>% clean_names()
 
 word_counts <- word_counts %>%
   mutate(date = mdy(date),
