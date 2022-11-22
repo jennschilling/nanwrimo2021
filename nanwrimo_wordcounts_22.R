@@ -379,7 +379,7 @@ cal_1 <- ggplot(data = word_counts %>% filter(day <= 21 & day > 14),
                   clip = "off") +
   labs(x = "",
        y = "",
-       subtitle = "I wrote the most words on Saturday Nov 20 and the fewest words on Sunday Nov 21.<br>") +
+       subtitle = "I wrote the most words on Monday Nov 21 and the fewest words on Saturday Nov 19.<br>") +
   theme()
 
 cal_2 <- ggplot(data = word_counts %>% filter(day <= 21 & day > 14),
@@ -400,7 +400,7 @@ cal_2 <- ggplot(data = word_counts %>% filter(day <= 21 & day > 14),
                   clip = "off") +
   labs(x = "",
        y = "",
-       subtitle = "I spent the longest time writing on Saturday Nov 20 and the shortest time writing on Sunday Nov 21.<br>") +
+       subtitle = "This week I spent a long time writing code and figuring out how to make different types of plots.<br>") +
   theme()
 
 line <- ggplot(data = word_counts %>% filter(day <= 21),
@@ -420,10 +420,11 @@ line <- ggplot(data = word_counts %>% filter(day <= 21),
             color = fontcolor,
             size = 4.5,
             vjust = -0.5,
-            nudge_x = -3.2) +
+            nudge_x = -3.2,
+            lineheight = 0.8) +
   annotate("curve",
            x = as_date("2022-11-06"), xend = as_date("2022-11-07"),
-           y = 18000, yend = 14500,
+           y = 18000, yend = 15500,
            curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
            color = fontcolor, size = 1) + 
   geom_text(data = word_counts %>% filter(day == 14), 
@@ -434,12 +435,13 @@ line <- ggplot(data = word_counts %>% filter(day <= 21),
             color = fontcolor,
             size = 4.5,
             vjust = -0.5,
-            nudge_x = -3.2) +
+            nudge_x = -3.2,
+            lineheight = 0.8) +
   annotate("curve",
            x = as_date("2022-11-13"), xend = as_date("2022-11-14"),
            y = 29500, yend = 26500,
            curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
-           color = fontcolor, size = 1) + 
+           color = fontcolor, size = 1)  + 
   geom_text(data = word_counts %>% filter(day == 21), 
             mapping = aes(label = paste("Week 3:\n", 
                                         comma(total - word_counts[14,]$total), 
@@ -448,10 +450,11 @@ line <- ggplot(data = word_counts %>% filter(day <= 21),
             color = fontcolor,
             size = 4.5,
             vjust = -0.5,
-            nudge_x = -3.2) +
+            nudge_x = -3.2,
+            lineheight = 0.8) +
   annotate("curve",
            x = as_date("2022-11-20"), xend = as_date("2022-11-21"),
-           y = 40500, yend = 37600,
+           y = 39500, yend = 36600,
            curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
            color = fontcolor, size = 1) + 
   geom_segment(data = goal,
@@ -570,7 +573,8 @@ line <- ggplot(data = word_counts %>% filter(day <= 28),
             color = fontcolor,
             size = 4.5,
             vjust = -0.5,
-            nudge_x = -3.2) +
+            nudge_x = -3.2,
+            lineheight = 0.8) +
   annotate("curve",
            x = as_date("2022-11-06"), xend = as_date("2022-11-07"),
            y = 18000, yend = 14500,
@@ -584,7 +588,8 @@ line <- ggplot(data = word_counts %>% filter(day <= 28),
             color = fontcolor,
             size = 4.5,
             vjust = -0.5,
-            nudge_x = -3.2) +
+            nudge_x = -3.2,
+            lineheight = 0.8) +
   annotate("curve",
            x = as_date("2022-11-13"), xend = as_date("2022-11-14"),
            y = 29500, yend = 26500,
@@ -598,10 +603,11 @@ line <- ggplot(data = word_counts %>% filter(day <= 28),
             color = fontcolor,
             size = 4.5,
             vjust = -0.5,
-            nudge_x = -3.2) +
+            nudge_x = -3.2,
+            lineheight = 0.8) +
   annotate("curve",
            x = as_date("2022-11-20"), xend = as_date("2022-11-21"),
-           y = 40500, yend = 37600,
+           y = 39500, yend = 36600,
            curvature = -0.2, arrow = arrow(length = unit(2, "mm")),
            color = fontcolor, size = 1) + 
   geom_text(data = word_counts %>% filter(day == 28), 
@@ -612,7 +618,8 @@ line <- ggplot(data = word_counts %>% filter(day <= 28),
             color = fontcolor,
             size = 4.5,
             vjust = -0.5,
-            nudge_x = -3.2) +
+            nudge_x = -3.2,
+            lineheight = 0.8) +
   annotate("curve",
            x = as_date("2022-11-27"), xend = as_date("2022-11-28"),
            y = 52500, yend = 49400,
